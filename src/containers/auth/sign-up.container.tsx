@@ -3,7 +3,6 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import {createUserWithEmailAndPassword} from "../../services/auth.service";
 import {Formik} from 'formik';
-import PathUtil from "../../util/path.util";
 import {Link} from "react-router-dom";
 
 const SignUpContainer = (props: any) => {
@@ -94,7 +93,6 @@ const SignUpContainer = (props: any) => {
                     </Form>
                 )}
             </Formik>
-
         </div>
     )
 }
