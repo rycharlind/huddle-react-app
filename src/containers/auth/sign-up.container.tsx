@@ -1,14 +1,16 @@
 import React from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import {signInWithEmailAndPassword} from "../../services/auth.service";
+import {createUserWithEmailAndPassword} from "../../services/auth.service";
 import {Formik} from 'formik';
+import PathUtil from "../../util/path.util";
+import {Link} from "react-router-dom";
 
-const SigninContainer = () => {
+const SignUpContainer = (props: any) => {
 
     return (
         <div>
-            <h1>Sign In</h1>
+            <h1>Create Account</h1>
             <Formik
                 initialValues={{email: '', password: '', verifyPassword: ''}}
                 validate={values => {
@@ -23,7 +25,7 @@ const SigninContainer = () => {
                     return errors;
                 }}
                 onSubmit={(values, {setSubmitting}) => {
-                    signInWithEmailAndPassword({email: values.email, password: values.password})
+                    createUserWithEmailAndPassword({email: values.email, password: values.password})
                 }}
             >
                 {({
@@ -66,6 +68,19 @@ const SigninContainer = () => {
                             />
                         </Form.Group>
 
+                        <Form.Group controlId="password-verify">
+                            <Form.Label>Verify Password</Form.Label>
+                            <Form.Control
+                                type="password"
+                                name="verifyPassword"
+                                placeholder="Verify Password"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.verifyPassword}
+                                size="lg"
+                            />
+                        </Form.Group>
+
                         <Button
                             type="submit"
                             variant="primary"
@@ -73,13 +88,17 @@ const SigninContainer = () => {
                             disabled={isSubmitting}
                             style={{width: '100%'}}>Create</Button>
 
+                        <Button variant="link">
+                            <Link to="/">Sign In</Link>
+                        </Button>
                     </Form>
                 )}
             </Formik>
+
         </div>
     )
 }
 
 export {
-    SigninContainer
+    SignUpContainer
 };
