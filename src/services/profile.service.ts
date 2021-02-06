@@ -1,4 +1,3 @@
-import "firebase/firestore";
 import firebase from "./firebase.service";
 
 const db = firebase.firestore()
@@ -10,8 +9,7 @@ export interface Profile {
 }
 
 const updateProfileInfo = async (uid: string, profile: any) => {
-    const userRef = db.doc(`users/${uid}`);
-    await userRef.set({
+    await db.doc(`users/${uid}`).set({
         displayName: profile.displayName,
         firstName: profile.firstName,
         lastName: profile.lastName

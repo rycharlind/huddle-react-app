@@ -22,7 +22,6 @@ const ProfileFormComponent = () => {
             return errors;
         },
         onSubmit: async (values: any, {setSubmitting}) => {
-            console.log(values)
             try {
                 await updateProfileInfo(uid, values)
             } catch (e) {
