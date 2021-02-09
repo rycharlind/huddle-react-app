@@ -16,11 +16,14 @@ interface SchemaField {
 }
 
 const SchemaBuilderContainer = () => {
-    const [schemaFieldsMap, setSchemaFieldsMap] = useState<Map<string, SchemaField>>(new Map())
+    const [schemaConfig, setSchemaConfig] = useState<SchemaConfig>({
+        name: 'New Config',
+        schemaFieldsMap: new Map<string, SchemaField>()
+    })
 
     const handleChange = (event: React.ChangeEvent<{ name: string; value: string, id: string }>) => {
         const guid = event.target.id
-        const schemaField = schemaFieldsMap.get(guid)!
+        const schemaField = schemaConfig.schemaFieldsMap.get(guid)!
 
         if (event.target.name === 'fieldName') {
             schemaField.fieldName = event.target.value
@@ -30,12 +33,18 @@ const SchemaBuilderContainer = () => {
             schemaField.fieldType = event.target.value;
         }
 
-        setSchemaFieldsMap(new Map(schemaFieldsMap.set(guid, schemaField)));
+        setSchemaConfig({
+            name: schemaConfig.name,
+            schemaFieldsMap: new Map(schemaConfig.schemaFieldsMap.set(guid, schemaField))
+        })
     };
 
     const handleDelete = (guid: string) => {
-        schemaFieldsMap.delete(guid);
-        setSchemaFieldsMap(new Map(schemaFieldsMap));
+        schemaConfig.schemaFieldsMap.delete(guid);
+        setSchemaConfig({
+            name: schemaConfig.name,
+            schemaFieldsMap: new Map(schemaConfig.schemaFieldsMap)
+        })
     }
 
     return (
@@ -44,8 +53,8 @@ const SchemaBuilderContainer = () => {
             <Form style={{maxWidth: '600px', minWidth: '400px'}}>
 
                 {
-                    [...schemaFieldsMap.keys()].map((key: string) => {
-                        const field: SchemaField = schemaFieldsMap.get(key)!
+                    [...schemaConfig.schemaFieldsMap.keys()].map((key: string) => {
+                        const field: SchemaField = schemaConfig.schemaFieldsMap.get(key)!
                         if (field) {
                             return (
                                 <SchemaFieldComp
@@ -68,13 +77,16 @@ const SchemaBuilderContainer = () => {
                     onClick={() => {
                         const guid = uuidv4()
 
-                        const schemaRow: SchemaField = {
+                        const schemaField: SchemaField = {
                             fieldGuid: guid,
                             fieldName: '',
                             fieldType: ''
                         }
 
-                        setSchemaFieldsMap(new Map(schemaFieldsMap.set(guid, schemaRow)))
+                        setSchemaConfig({
+                            name: schemaConfig.name,
+                            schemaFieldsMap: new Map(schemaConfig.schemaFieldsMap.set(guid, schemaField))
+                        })
                     }}
                     style={{width: '100%', marginTop: '16px'}}>Add Field</Button>
 
@@ -83,7 +95,7 @@ const SchemaBuilderContainer = () => {
                     color="secondary"
                     size="large"
                     onClick={() => {
-                        console.log(schemaFieldsMap)
+                        console.log(schemaConfig)
                     }}
                     style={{width: '100%', marginTop: '16px'}}>Save</Button>
 
