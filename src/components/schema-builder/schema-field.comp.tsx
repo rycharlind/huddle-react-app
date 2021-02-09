@@ -51,7 +51,7 @@ const SchemaFieldComp = (props: any) => {
                 </Select>
             </FormControl>
 
-            <IconButton aria-label="delete">
+            <IconButton aria-label="delete" onClick={() => props.deleteHandler(props.guid)}>
                 <DeleteIcon />
             </IconButton>
 

@@ -33,6 +33,11 @@ const SchemaBuilderContainer = () => {
         setSchemaFieldsMap(new Map(schemaFieldsMap.set(guid, schemaField)));
     };
 
+    const handleDelete = (guid: string) => {
+        schemaFieldsMap.delete(guid);
+        setSchemaFieldsMap(new Map(schemaFieldsMap));
+    }
+
     return (
         <div>
             <h3>Create Schema</h3>
@@ -47,6 +52,7 @@ const SchemaBuilderContainer = () => {
                                     key={field.fieldGuid}
                                     guid={field.fieldGuid}
                                     handler={handleChange}
+                                    deleteHandler={handleDelete}
                                 ></SchemaFieldComp>
                             )
                         } else {
@@ -71,7 +77,6 @@ const SchemaBuilderContainer = () => {
                         setSchemaFieldsMap(new Map(schemaFieldsMap.set(guid, schemaRow)))
                     }}
                     style={{width: '100%', marginTop: '16px'}}>Add Field</Button>
-
 
                 <Button
                     variant="contained"
