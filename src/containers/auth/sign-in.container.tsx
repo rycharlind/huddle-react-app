@@ -8,7 +8,7 @@ import {Link} from "react-router-dom";
 const SignInContainer = () => {
 
     return (
-        <div>
+        <div style={{padding: '32px'}}>
             <h1>Sign In</h1>
             <Formik
                 initialValues={{email: '', password: '', verifyPassword: ''}}
@@ -72,7 +72,7 @@ const SignInContainer = () => {
                             variant="primary"
                             size="lg"
                             disabled={isSubmitting}
-                            style={{width: '100%'}}>Create</Button>
+                            style={{width: '100%'}}>Sign In</Button>
 
                         <Button variant="link">
                             <Link to="/signup">Create Account</Link>

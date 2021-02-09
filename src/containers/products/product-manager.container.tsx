@@ -1,6 +1,6 @@
 import React from 'react'
 import ProductsAddFormComponent from "../../components/products/products-add-form.comp";
-import ProductsListComponent from "../../components/products/products-list.comp";
+import ProductsTableComponent from "../../components/products/products-table.comp";
 
 const ProductManagerContainer = () => {
 
@@ -10,7 +10,7 @@ const ProductManagerContainer = () => {
                 <ProductsAddFormComponent></ProductsAddFormComponent>
             </div>
             <div style={{marginTop: "64px"}}>
-                <ProductsListComponent></ProductsListComponent>
+                <ProductsTableComponent></ProductsTableComponent>
             </div>
         </div>
     )

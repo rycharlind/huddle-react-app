@@ -1,28 +1,31 @@
 import React from 'react';
 import {useFormik} from "formik";
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField'
 import {addProduct} from "../../services/products.service";
 
-const ProductsAddFormComponent = (props: any) => {
+const ProductsAddFormComponent = () => {
 
     const formik = useFormik({
         initialValues: {
             title: '',
-            description: ''
+            description: '',
+            price: 0
         },
         validate: (values) => {
             const errors: any = {};
             // todo add validation
             return errors;
         },
-        onSubmit: async (values: any, {setSubmitting}) => {
+        onSubmit: async (values: any, {setSubmitting, setValues}) => {
             try {
                 addProduct('1', values)
             } catch (e) {
                 console.log(e)
             }
             setSubmitting(false)
+            setValues({title: '', description: '', price: 0})
         }
     });
 
@@ -32,38 +35,48 @@ const ProductsAddFormComponent = (props: any) => {
             <Form style={{maxWidth: '600px', minWidth: '400px'}}
                   onSubmit={formik.handleSubmit}>
 
-                <Form.Group controlId="title">
-                    <Form.Label>Title</Form.Label>
-                    <Form.Control
-                        type="text"
-                        name="title"
-                        placeholder="Title"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.title}
-                        size="lg"
-                    />
-                </Form.Group>
+                <TextField
+                    id="title"
+                    label="Title"
+                    variant="outlined"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.title}
+                    fullWidth
+                    margin="normal"
+                />
 
-                <Form.Group controlId="description">
-                    <Form.Label>Description</Form.Label>
-                    <Form.Control
-                        type="text"
-                        name="description"
-                        placeholder="Description"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.description}
-                        size="lg"
-                    />
-                </Form.Group>
+                <TextField
+                    id="description"
+                    label="Description"
+                    variant="outlined"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.description}
+                    fullWidth
+                    multiline
+                    rows={4}
+                    margin="normal"
+                />
+
+                <TextField
+                    id="price"
+                    label="Price"
+                    variant="outlined"
+                    type="number"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.price}
+                    margin="normal"
+                />
 
                 <Button
                     type="submit"
-                    variant="primary"
-                    size="lg"
+                    variant="contained"
+                    color="primary"
+                    size="large"
                     disabled={formik.isSubmitting}
-                    style={{width: '100%'}}>Add Product</Button>
+                    style={{width: '100%', marginTop: '16px'}}>Add Product</Button>
 
             </Form>
         </div>

@@ -9,42 +9,26 @@ const addProduct = async (tenantId: string, product: any) => {
         .collection('products')
         .add({
             title: product.title,
-            description: product.description
+            description: product.description,
+            price: product.price,
+            createdAt: firebase.firestore.Timestamp.fromDate(new Date())
         });
 }
 
-class Product {
-    title: string;
-    description: string;
-    constructor(title: string, description: string) {
-        this.title = title;
-        this.description = description;
-    }
-}
-
-const productConverter: any = {
-    toFirestore: function (product: Product) {
-        return {
-            title: product.title,
-            description: product.description
-        }
-    },
-    fromFirestore: function (snapshot: any, options: any) {
-        const data = snapshot.data(options);
-        return new Product(data.title, data.description)
-    }
-}
-
 const getProducts = async (tenantId: string) => {
-    const response: any = await db.collection('products')
+    const response: any = await db
+        .collection('products')
         .doc(tenantId)
         .collection('products')
-        .withConverter(productConverter)
+        .orderBy('createdAt')
+        .limit(20)
         .get()
 
-    const products: Product[] = [];
+    const products: any[] = [];
     response.docs.map( (doc: any) => {
-        products.push(doc.data())
+        const product = doc.data()
+        product.id = doc.id
+        products.push(product)
     })
 
     return products
