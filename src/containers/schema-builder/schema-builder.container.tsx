@@ -3,6 +3,9 @@ import Form from "react-bootstrap/Form";
 import Button from "@material-ui/core/Button";
 import SchemaFieldComp from "../../components/schema-builder/schema-field.comp";
 import {v4 as uuidv4} from 'uuid';
+import firebase from '../../services/firebase.service'
+
+const db = firebase.firestore()
 
 interface SchemaConfig {
     name: string;
@@ -94,8 +97,17 @@ const SchemaBuilderContainer = () => {
                     variant="contained"
                     color="secondary"
                     size="large"
-                    onClick={() => {
+                    onClick={async () => {
                         console.log(schemaConfig)
+                        await db
+                            .collection(`schemas`)
+                            .doc('1')
+                            .collection('schemas')
+                            .add({
+                                name: schemaConfig.name,
+                                schemaFieldsMap: Object.fromEntries(schemaConfig.schemaFieldsMap),
+                                createdAt: firebase.firestore.Timestamp.fromDate(new Date())
+                            });
                     }}
                     style={{width: '100%', marginTop: '16px'}}>Save</Button>
 
